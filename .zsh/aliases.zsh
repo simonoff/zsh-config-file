@@ -1,5 +1,5 @@
 #
-# Aliaces
+# Aliases
 #
 alias mv='nocorrect mv -v'
 alias cp='nocorrect cp -v'
@@ -52,3 +52,10 @@ alias hmakej="hilite make -j"
 alias clean="rm *~"
 alias emacs="emacs -nw"
 alias grep='grep --color=auto'
+
+
+alias mysqlstart='sudo /opt/local/share/mysql5/mysql/mysql.server start'
+alias mysqlstop='sudo /opt/local/share/mysql5/mysql/mysql.server stop'
+
+alias pgsqlstart='sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql83-server.wrapper start'
+alias pgsqlstop='sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql83-server.wrapper stop'

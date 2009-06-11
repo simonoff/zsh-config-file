@@ -15,8 +15,13 @@ umask 022
 #
 # Add PATH variable
 #
-PATH="/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:/opt/local/lib/postgresql82/bin"
+PATH="/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:/opt/local/lib/postgresql83/bin"
 export PATH="${PATH}:/bin:/sbin:/usr/bin:/usr/sbin"
+export MANPATH=/opt/local/share/man:$MANPATH
+export DISPLAY=:0.0
+export EDITOR=vi
+export PAGER=less
+
 
 export UNAME_S=$(uname -s 2>&1 || echo "Linux" )
 # Use hard limits, except for a smaller stack and no core dumps
@@ -45,7 +50,7 @@ zmodload -ap zsh/mapfile mapfile
 #
 # Load aliaces
 #
-source ~/.zsh/aliaces.zsh
+source ~/.zsh/aliases.zsh
 
 #
 # Load completion
@@ -60,7 +65,7 @@ source ~/.zsh/keybind.zsh
 #
 # Others
 #
-export LANG="ru_RU.UTF-8"
+export LANG="en_US.UTF-8"
 export COLORFGBG="default;default"
 export CFLAGS="-I/opt/local/include ${CFLAGS}"
 export CPPFLAGS="-I/opt/local/include ${CPPFLAGS}"
@@ -77,6 +82,8 @@ src () {
 	[ -f ~/.zcompdump.zwc.old ] && rm -f ~/.zcompdump.zwc.old
 	source ~/.zshrc
 }
+
+source ~/.zsh/functions.zsh
 
 #
 # Load prompt
