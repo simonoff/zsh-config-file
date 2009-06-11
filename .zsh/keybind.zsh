@@ -15,6 +15,8 @@ case $TERM in
 	bindkey " " magic-space
 	;;
     xterm*|*rxvt*)
+	bindkey "^[[1~" beginning-of-line
+	bindkey "^[[4~" end-of-line
 	bindkey "^[[2~" yank
 	bindkey "^[[3~" delete-char
 	bindkey "^[[5~" up-line-or-history
