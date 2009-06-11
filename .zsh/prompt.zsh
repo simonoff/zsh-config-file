@@ -68,7 +68,7 @@ function precmd {
     PR_FILLBAR=""
     PR_PWDLEN=""
 
-    local promptsize=${#${(%):---(%n@%M:%l)---()}}
+    local promptsize=${#${(%):---(%n@%M:%l"$(parse_git_branch)")---()}}
     local pwdsize=${#${(%):-%~}}
 
 
@@ -168,7 +168,7 @@ setprompt () {
 $PR_CYAN$PR_SHIFT_IN$PR_RED$PR_HBAR$PR_SHIFT_OUT$PR_RED<\
 $PR_BLUE%(!.$PR_RED%SROOT%s.%n)$PR_GREEN@$PR_BLUE%M:$PR_GREEN%$PR_PWDLEN<...<%~%<<\
 $PR_RED\
-$PR_RED>$PR_RED$PR_SHIFT_IN$PR_HBAR$PR_CYAN$PR_SPACE${(e)PR_FILLBAR}$PR_RED$PR_HBAR$PR_SHIFT_OUT<\
+$PR_RED$(parse_git_branch)>$PR_RED$PR_SHIFT_IN$PR_HBAR$PR_CYAN$PR_SPACE${(e)PR_FILLBAR}$PR_RED$PR_HBAR$PR_SHIFT_OUT<\
 $PR_GREEN%l$PR_RED>$PR_SHIFT_IN$PR_HBAR$PR_CYAN$PR_SHIFT_OUT\
 
 $PR_SHIFT_IN$PR_RED$PR_HBAR$PR_SHIFT_OUT<\

@@ -136,3 +136,11 @@ uncolorize()
 
     $LATEST_PROMPT
 }
+
+parse_git_dirty() {
+  git diff --quiet || echo "*"
+}
+parse_git_branch() {
+  [ -d .git ] || return 1
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+}
