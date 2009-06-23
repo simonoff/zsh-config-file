@@ -1,50 +1,3 @@
-#preexec () {
-#    if [[ "$TERM" == "screen" ]]; then
-#        local CMD=${1[(wr)^(*=*|sudo|-*)]}
-#        echo -n "\ek$CMD\e\\"
-#    fi
-#    if [[ "$TERM" == "xterm" ]]; then
-#        print -Pn "\e]0;$1\a"
-#    fi
-#    if [[ "$TERM" == "rxvt" ]]; then
-#        print -Pn "\e]0;$1\a"
-#    fi
-#}
-#
-#case $TERM in
-#    xterm|*rxvt*)
-#        PR_TITLEBAR=$'%{\e]0;%(!.-=*[ROOT]*=- | .)%n@%m:%~ | %y\a%}'
-#        ;;
-#    screen)
-#        PR_TITLEBAR=$'%{\e_screen \005 (\005t) | %(!.-=[ROOT]=- | .)%n@%m:%~ | %y\e\\%}'
-#        ;;
-#    *)
-#        PR_TITLEBAR=''
-#        ;;
-#esac
-#
-#if [[ "$TERM" == "screen" ]]; then
-#    PR_STITLE=$'%{\ekzsh\e\\%}'
-#else
-#    PR_STITLE=''
-#fi
-#
-#precmd() {
-#    RPS1=""
-#    RPS1=$'%{\e[36m%}'
-#    NOCOLOR=$'%{\e[00m%}'
-#}
-#
-#PS1=$'%{\e[32m%}%n@%{\e[31m%}%m %{\e[34m%} '
-#PSCONT=$'%{\e[33m%}%?%{\e[32m%}'
-#PWDL="%${PR_PWDLEN}<...<%~%<< "
-#PS1="${PS1}${PWDL}${PSCONT}
-#"
-#CONT=$'%{\e[36m%}%# '
-#PS1="${PR_STITLE}${PR_TITLEBAR}${PS1}${CONT}"
-#PS2=$'%{\e[36m%}<%{\e[33m%}%_%{\e[36m%}>'
-#PS2="${PS2}${NOCOLOR}"
-
 #
 # Prompt
 #
@@ -56,29 +9,6 @@
 # 30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
 # Background color codes:
 # 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
-function precmd {
-
-    local TERMWIDTH
-    (( TERMWIDTH = ${COLUMNS} - 1 ))
-
-
-    ###
-    # Truncate the path if it's too long.
-
-    PR_FILLBAR=""
-    PR_PWDLEN=""
-
-    local promptsize=${#${(%):---(%n@%M:%l"$(parse_git_branch)")---()}}
-    local pwdsize=${#${(%):-%~}}
-
-
-    if [[ "$promptsize + $pwdsize" -gt $TERMWIDTH ]]; then
-        ((PR_PWDLEN=$TERMWIDTH - $promptsize))
-    else
-        PR_FILLBAR="\${(l.(($TERMWIDTH - ($promptsize + $pwdsize)))..${PR_SPACE}.)}"
-    fi
-}
-
 
 setopt extended_glob
 
@@ -104,39 +34,16 @@ setprompt () {
 
     setopt prompt_subst
 
-
 ###
 # See if we can use colors.
 
-    autoload colors zsh/terminfo
-    if [[ "$terminfo[colors]" -ge 8 ]]; then
-    colors
-    fi
+    autoload colors zsh/terminfo && colors
     for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
-    eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
-    eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
-    (( count = $count + 1 ))
+	eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
+	eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
+	(( count = $count + 1 ))
     done
-    PR_NO_COLOUR="%{$terminfo[sgr0]%}"
-
-
-###
-# See if we can use extended characters to look nicer.
-
-    typeset -A altchar
-#    set -A altchar "${(s..)terminfo[acsc]}"
-    PR_SET_CHARSET="%{$terminfo[enacs]%}"
-    #PR_SHIFT_IN="%{$terminfo[smacs]%}"
-    PR_SHIFT_IN=""
-    #PR_SHIFT_OUT="%{$terminfo[rmacs]%}"
-    PR_SHIFT_OUT=""
-    PR_HBAR=${altchar[q]:--}
-    PR_SPACE=" "
-    PR_ULCORNER=${altchar[l]:--}
-    PR_LLCORNER=${altchar[m]:--}
-    PR_LRCORNER=${altchar[j]:--}
-    PR_URCORNER=${altchar[k]:--}
-
+    PR_NO_COLOR=$reset_color
 
 ###
 # Decide if we need to set titlebar text.
@@ -157,34 +64,16 @@ setprompt () {
 ###
 # Decide whether to set a screen title
     if [[ "$TERM" == "screen" ]]; then
-    PR_STITLE=$'%{\ekzsh\e\\%}'
+	PR_STITLE=$'%{\ekzsh\e\\%}'
     else
-    PR_STITLE=''
+	PR_STITLE=''
     fi
 
 ###
 # Finally, the prompt.
-    PROMPT='$PR_SET_CHARSET$PR_STITLE${(e)PR_TITLEBAR}\
-$PR_CYAN$PR_SHIFT_IN$PR_RED$PR_HBAR$PR_SHIFT_OUT$PR_RED<\
-$PR_BLUE%(!.$PR_RED%SROOT%s.%n)$PR_GREEN@$PR_BLUE%M:$PR_GREEN%$PR_PWDLEN<...<%~%<<\
-$PR_RED\
-$PR_RED$(parse_git_branch)>$PR_RED$PR_SHIFT_IN$PR_HBAR$PR_CYAN$PR_SPACE${(e)PR_FILLBAR}$PR_RED$PR_HBAR$PR_SHIFT_OUT<\
-$PR_GREEN%l$PR_RED>$PR_SHIFT_IN$PR_HBAR$PR_CYAN$PR_SHIFT_OUT\
 
-$PR_SHIFT_IN$PR_RED$PR_HBAR$PR_SHIFT_OUT<\
-%(?..$PR_LIGHT_RED%?$PR_BLUE:)\
-$PR_LIGHT_BLUE%(!.$PR_RED.$PR_WHITE)%#$PR_RED>$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
-$PR_CYAN$PR_SHIFT_IN$PR_SHIFT_OUT\
-$PR_NO_COLOUR '
-
-    RPROMPT=' $PR_RED$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
-<$PR_BLUE%D{%H:%M %a,%d %b}$PR_RED>$PR_SHIFT_IN$PR_HBAR$PR_NO_COLOUR'
-
-    PS2='$PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
-$PR_BLUE$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT(\
-$PR_LIGHT_GREEN%_$PR_BLUE)$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
-$PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT$PR_NO_COLOUR '
-
+    PROMPT='${PR_LIGHT_RED}%n@%m${PR_NO_COLOR}: ${PR_YELLOW}%~${PR_MAGENTA}${PR_RED}$(parse_git_branch)${PR_NO_COLOR}%# ' # default prompt
+    
 }
 
 setprompt
