@@ -29,24 +29,24 @@ preexec () {
 }
 
 setprompt () {
-###
-# Need this so the prompt will work.
+    ###
+    # Need this so the prompt will work.
 
     setopt prompt_subst
 
-###
-# See if we can use colors.
+    ###
+    # See if we can use colors.
 
     autoload colors zsh/terminfo && colors
     for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
-	eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
-	eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
-	(( count = $count + 1 ))
+        eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
+        eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
+        (( count = $count + 1 ))
     done
-    PR_NO_COLOR=$reset_color
+    PR_NO_COLOR="%{$terminfo[sgr0]%}"
 
-###
-# Decide if we need to set titlebar text.
+    ###
+    # Decide if we need to set titlebar text.
 
     case $TERM in
     xterm|*rxvt*)
@@ -61,18 +61,19 @@ setprompt () {
     esac
 
 
-###
-# Decide whether to set a screen title
+    ###
+    # Decide whether to set a screen title
+    
     if [[ "$TERM" == "screen" ]]; then
-	PR_STITLE=$'%{\ekzsh\e\\%}'
+        PR_STITLE=$'%{\ekzsh\e\\%}'
     else
-	PR_STITLE=''
+        PR_STITLE=''
     fi
 
-###
-# Finally, the prompt.
+    ###
+    # Finally, the prompt.
 
-    PROMPT='${PR_LIGHT_RED}%n@%m${PR_NO_COLOR}: ${PR_YELLOW}%~${PR_MAGENTA}${PR_RED}$(parse_git_branch)${PR_NO_COLOR}%# ' # default prompt
+    PROMPT='${PR_LIGHT_RED}%n@%m${PR_NO_COLOR}: ${PR_YELLOW}%~${PR_RED}$(parse_git_branch)${PR_NO_COLOR}%# ' # default prompt
     
 }
 
