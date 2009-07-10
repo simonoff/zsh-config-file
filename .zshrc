@@ -13,6 +13,17 @@
 umask 022
 
 #
+# Scan path dir for new path
+#
+PATH_SCAN_DIR=~/.zsh/path.d
+if [[ -d $PATH_SCAN_DIR ]] then
+	for f in $PATH_SCAN_DIR/*.path; do
+		[[ -e $f && -s $f ]] && . $f
+	done
+fi
+
+
+#
 # Add PATH variable
 #
 PATH="/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:/opt/local/lib/postgresql83/bin"

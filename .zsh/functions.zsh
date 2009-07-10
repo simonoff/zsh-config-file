@@ -137,9 +137,21 @@ uncolorize()
     $LATEST_PROMPT
 }
 
+src () {
+    autoload -U zrecompile
+    [ -f ~/.zshrc ] && zrecompile -p ~/.zshrc ~/.zsh/*.zsh
+    [ -f ~/.zcompdump ] && zrecompile -p ~/.zcompdump
+    [ -f ~/.zshrc.zwc.old ] && rm -f ~/.zshrc.zwc.old
+    [ -f ~/.zcompdump.zwc.old ] && rm -f ~/.zcompdump.zwc.old
+    source ~/.zshrc
+}
+
+
+
 parse_git_dirty() {
   git diff --quiet || echo "*"
 }
+
 parse_git_branch() {
   [ -d .git ] || return 1
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
