@@ -1,7 +1,7 @@
-# Hosts to use for completion (see later zstyle)
-hosts=(`hostname` example.com\
-                  example2.com
-)
+#Hosts completion from .ssh/known_hosts
+local _myhosts
+_myhosts=( ${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*} )
+
 
 # Setup new style completion system. To see examples of the old style (compctl
 # based) programmable completion, check Misc/compctl-examples in the zsh
@@ -44,7 +44,8 @@ zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 # command for process lists, the local web server details and host completion
 #zstyle ':completion:*:processes' command 'ps -o pid,s,nice,stime,args'
 #zstyle ':completion:*:urls' local 'www' '/var/www/htdocs' 'public_html'
-zstyle '*' hosts $hosts
+zstyle ':completion:*' hosts $_myhosts
+
 # Filename suffixes to ignore during completion (except after rm command)
 zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns '*?.o' '*?.c~' \
     '*?.old' '*?.pro'
