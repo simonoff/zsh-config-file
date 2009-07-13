@@ -89,5 +89,10 @@ source ~/.zsh/functions.zsh
 #
 # Load prompt
 #
-source ~/.zsh/prompt.zsh
+if [[ -f ~/.zsh/prompt.zsh ]]; then
+    source ~/.zsh/prompt.zsh
+else
+    prompts=(~/.zsh/prompt.d/*)
+    source $prompts[1]
+fi
 # vim: set noet ts=4 tw=80 :
