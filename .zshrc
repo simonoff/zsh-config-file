@@ -33,7 +33,18 @@ function read_path_dir () {
 }
 
 #
+# Mostly all Linux distributions used /etc/profile.d dir 
+# for collecting path info
+#
+if [ -d /etc/profile.d ]; then
+	for s in /etc/profile.d/*.sh ; do
+		test -r $s -a ! -k $s && . $s
+	done
+fi
+
+#
 # Make PATH from /etc/path(.d)?
+# MacOS X specific
 #
 PATH=`read_path_dir /etc/paths "$PATH"`
 MANPATH=`read_path_dir /etc/manpaths "$MANPATH"`
@@ -112,9 +123,9 @@ source ~/.zsh/functions.zsh
 # Load prompt
 #
 if [[ -f ~/.zsh/prompt.zsh ]]; then
-    source ~/.zsh/prompt.zsh
+	source ~/.zsh/prompt.zsh
 else
-    prompts=(~/.zsh/prompt.d/*)
-    source $prompts[1]
+	prompts=(~/.zsh/prompt.d/*)
+	source $prompts[1]
 fi
 # vim: set noet ts=4 tw=80 :
