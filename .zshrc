@@ -2,39 +2,59 @@
 # Wrote by some dotfiles others peoples
 # Author Alexander Simonov <alex@simonov.in.ua>, Dmitry Shaposhnik <dmitry@shaposhnik.name>
 
-#
-# Read environment
-#
-#[[ -e "/etc/profile.env" ]] && source /etc/profile.env
-
-#077 would be more secure, but 022 is generally quite realistic
 umask 022
+#
+# Clean paths
+#
+export PATH=""
+export MANPATH=""
 
-export PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+#
+# Based on /usr/libexec/path_helper
+#
+function read_path_dir () {
+	DIR="$1"
+	NEWPATH="$2"
+	EXT="$3"
+	SEP=""
+	IFS=$'\n'
+	if [ -d "$DIR".d ]; then
+		for f in "$DIR" "$DIR".d/*"$EXT" ; do
+		  if [ -f "$f" ]; then
+			for p in $(< "$f") ; do
+				[[ "$NEWPATH" = *(*:)${p}*(:*) ]] && continue
+				[ ! -z "$NEWPATH" ] && SEP=":"
+				NEWPATH="${p}${SEP}${NEWPATH}"
+			done
+		  fi
+		done
+	fi
+	echo $NEWPATH
+}
+
+#
+# Make PATH from /etc/path(.d)?
+#
+PATH=`read_path_dir /etc/paths "$PATH"`
+MANPATH=`read_path_dir /etc/manpaths "$MANPATH"`
+
+export MANPATH
 
 #
 # Scan path dir for new path
 #
-PATH_SCAN_DIR=~/.zsh/path.d
-if [[ -d $PATH_SCAN_DIR ]] then
-	#First load simple completions - plain files, each path at new line
-	for file in $PATH_SCAN_DIR/*.path; do
-	    [[ -e $file && -s $file ]] || continue
-	    for i in `cat $file`; do
-		[[ -d $i ]] && PATH="$i:$PATH"
-	    done
-	done
-	#Now load complex path specifications. F.e. with UID checking
-	for file in $PATH_SCAN_DIR/*.zsh; do
-	    [[ -e $file && -s $file ]] && . $file
-	done
-fi
-
+PATH_SCAN_DIR=~/.zsh/path
+PATH=`read_path_dir $PATH_SCAN_DIR "$PATH" .path`
 export PATH
+for f in "$PATH_SCAN_DIR".d/*.zsh; do
+	[[ -e $f && -s $f ]] && . $f
+done
+
 export MANPATH=/opt/local/share/man:$MANPATH
 export DISPLAY=:0.0
-export EDITOR=vi
+export EDITOR=vim
 export PAGER=less
+
 
 
 export UNAME_S=$(uname -s 2>&1 || echo "Linux" )
@@ -45,7 +65,7 @@ limit core 0
 limit -s
 
 ###
-# Options.  See zshoptions(1)
+# Options.	See zshoptions(1)
 SAVEHIST=5000
 HISTSIZE=5000
 DIRSTACKSIZE=20
@@ -80,6 +100,8 @@ source ~/.zsh/keybind.zsh
 # Others
 #
 export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
 export COLORFGBG="default;default"
 export CFLAGS="-I/opt/local/include ${CFLAGS}"
 export CPPFLAGS="-I/opt/local/include ${CPPFLAGS}"
