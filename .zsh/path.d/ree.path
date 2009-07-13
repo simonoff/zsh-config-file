@@ -1,1 +1,1 @@
-export PATH="/opt/ree/bin:$PATH"
+/opt/ree/bin

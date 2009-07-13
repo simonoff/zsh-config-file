@@ -1,2 +1,2 @@
-export PATH="/opt/local/lib/postgresql82/bin:$PATH"
-
+/opt/local/lib/postgresql83/bin
+/opt/local/lib/postgresql82/bin
