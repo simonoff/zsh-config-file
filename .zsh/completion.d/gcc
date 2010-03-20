@@ -1,0 +1,41 @@
+#------------------------------------------------------------------------------
+# Generic completion for C compiler.
+compctl -/g "*.[cCoa]" -x 's[-I]' -/ - \
+	's[-l]' -s '${(s.:.)^LD_LIBRARY_PATH}/lib*.a(:t:r:s/lib//)' -- cc
+#------------------------------------------------------------------------------
+# GCC completion, by Andrew Main
+# completes to filenames (*.c, *.C, *.o, etc.); to miscellaneous options after
+# a -; to various -f options after -f (and similarly -W, -g and -m); and to a
+# couple of other things at different points.
+# The -l completion is nicked from the cc compctl above.
+# The -m completion should be tailored to each system; the one below is i386.
+compctl -/g '*.([cCmisSoak]|cc|cxx|ii|k[ih])' -x \
+	's[-l]' -s '${(s.:.)^LD_LIBRARY_PATH}/lib*.a(:t:r:s/lib//)' - \
+	'c[-1,-x]' -k '(none c objective-c c-header c++ cpp-output
+	assembler assembler-with-cpp)' - \
+	'c[-1,-o]' -f - \
+	'C[-1,-i(nclude|macros)]' -/g '*.h' - \
+	'C[-1,-i(dirafter|prefix)]' -/ - \
+	's[-B][-I][-L]' -/ - \
+	's[-fno-],s[-f]' -k '(all-virtual cond-mismatch dollars-in-identifiers
+	enum-int-equiv external-templates asm builtin strict-prototype
+	signed-bitfields signd-char this-is-variable unsigned-bitfields
+	unsigned-char writable-strings syntax-only pretend-float caller-saves
+	cse-follow-jumps cse-skip-blocks delayed-branch elide-constructors
+	expensive-optimizations fast-math float-store force-addr force-mem
+	inline-functions keep-inline-functions memoize-lookups default-inline
+	defer-pop function-cse inline peephole omit-frame-pointer
+	rerun-cse-after-loop schedule-insns schedule-insns2 strength-reduce
+	thread-jumps unroll-all-loops unroll-loops)' - \
+	's[-g]' -k '(coff xcoff xcoff+ dwarf dwarf+ stabs stabs+ gdb)' - \
+	's[-mno-][-mno][-m]' -k '(486 soft-float fp-ret-in-387)' - \
+	's[-Wno-][-W]' -k '(all aggregate-return cast-align cast-qual
+	char-subscript comment conversion enum-clash error format id-clash-6
+	implicit inline missing-prototypes missing-declarations nested-externs
+	import parentheses pointer-arith redundant-decls return-type shadow
+	strict-prototypes switch template-debugging traditional trigraphs
+	uninitialized unused write-strings)' - \
+	's[-]' -k '(pipe ansi traditional traditional-cpp trigraphs pedantic
+	pedantic-errors nostartfiles nostdlib static shared symbolic include
+	imacros idirafter iprefix iwithprefix nostdinc nostdinc++ undef)' \
+	-X 'Use "-f", "-g", "-m" or "-W" for more options' -- gcc g++

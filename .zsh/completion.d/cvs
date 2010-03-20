@@ -1,0 +1,96 @@
+#------------------------------------------------------------------------------
+# CVS
+#
+cvscmds=(add admin rcs checkout commit diff rdiff export history import log rlog
+         release remove status tag rtag update annotate)
+cvsignore="*~ *# .#* *.o *.a CVS . .."
+
+compctl -k cvscmds \
+    -x "c[-1,-D]" -k '(today yesterday 1\ week\ ago)' \
+    - "c[-1,-m]" -k '(bugfix cosmetic\ fix ... added\ functionality foo)' \
+    - "c[-1,-F]" -f \
+    - "c[-1,-r]" -K cvsrevisions \
+    - "c[-1,-I]" -f \
+    - "R[add,;]" -K cvsaddp \
+    - "R[(admin|rcs),;]" -/K cvstargets \
+    - "R[(checkout|co),;]" -K cvsrepositories \
+    - "R[(commit|ci),;]" -/K cvstargets \
+    - "R[(r|)diff,;]" -/K cvstargets \
+    - "R[export,;]" -f \
+    - "R[history,;]" -/K cvstargets \
+    - "R[history,;] c[-1,-u]" -u \
+    - "R[import,;]" -K cvsrepositories \
+    - "R[(r|)log,;]" -/K cvstargets \
+    - 'R[(r|)log,;] s[-w] n[-1,,],s[-w]' -u -S , -q \
+    - "R[rel(|ease),;]" -f \
+    - "R[(remove|rm),;] R[-f,;]" -/K cvstargets \
+    - "R[(remove|rm),;]" -K cvsremovep \
+    - "R[status,;]" -/K cvstargets \
+    - "R[(r|)tag,;]" -/K cvstargets \
+    - "R[up(|date),;]" -/K cvstargets \
+    - "R[annotate,;]" -/K cvstargets \
+    -- cvs 
+
+compctl -/K cvstargets cvstest 
+
+cvsprefix() {
+    local nword args f
+    read -nc nword; read -Ac args
+    pref=$args[$nword]
+    if [[ -d $pref:h && ! -d $pref ]]; then
+	pref=$pref:h
+    elif [[ $pref != */* ]]; then
+	pref=
+    fi
+    [[ -n "$pref" && "$pref" != */ ]] && pref=$pref/
+}
+
+cvsentries() {
+    setopt localoptions nullglob unset
+    if [[ -f ${pref}CVS/Entries ]]; then
+	reply=( "${pref}${(@)^${(@)${(@)${(f@)$(<${pref}CVS/Entries)}:#D*}#/}%%/*}" )
+    fi
+}
+
+cvstargets() {
+    local pref
+    cvsprefix
+    cvsentries
+}
+
+cvsrevisions() {
+    reply=( "${(@)${(@)${(@M)${(@f)$(cvs -q status -vl .)}:#	*}##[ 	]##}%%[ 	]*}" )
+}
+
+cvsrepositories() {
+    local root=$CVSROOT
+    [[ -f CVS/Root ]] && root=$(<CVS/Root)
+    reply=(
+	$root/^CVSROOT(:t)
+	"${(@)${(@M)${(@f)$(<$root/CVSROOT/modules)}:#[^#]*}%%[ 	]*}"
+    )
+}
+
+cvsremovep() {
+    local pref
+    cvsprefix
+    cvsentries
+    setopt localoptions unset
+    local omit
+    omit=( ${pref}*(D) )
+    eval 'reply=( ${reply:#('${(j:|:)omit}')} )'
+}
+
+cvsaddp() {
+    local pref
+    cvsprefix
+    cvsentries
+    setopt localoptions unset
+    local all omit
+    all=( ${pref}*(D) )
+    omit=( $reply ${pref}${^${=cvsignore}} )
+    [[ -r ~/.cvsignore ]] && omit=( $omit ${pref}${^$(<~/.cvsignore)} )
+    [[ -r ${pref}.cvsignore ]] && omit=( $omit ${pref}${^$(<${pref}.cvsignore)} )
+    eval 'reply=( ${all:#('${(j:|:)omit}')} )' 
+}
+
