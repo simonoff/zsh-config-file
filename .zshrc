@@ -8,6 +8,7 @@ umask 022
 #
 export PATH=""
 export MANPATH=""
+ZSH_MYCONFDIR=~/.zsh
 
 #
 # Based on /usr/libexec/path_helper
@@ -42,9 +43,9 @@ if [ -d /etc/profile.d ]; then
 	done
 fi
 
+
 #
 # Make PATH from /etc/path(.d)?
-# MacOS X specific
 #
 PATH=`read_path_dir /etc/paths "$PATH"`
 MANPATH=`read_path_dir /etc/manpaths "$MANPATH"`
@@ -54,7 +55,7 @@ export MANPATH
 #
 # Scan path dir for new path
 #
-PATH_SCAN_DIR=~/.zsh/path
+PATH_SCAN_DIR=$ZSH_MYCONFDIR/path
 PATH=`read_path_dir $PATH_SCAN_DIR "$PATH" .path`
 export PATH
 for f in "$PATH_SCAN_DIR".d/*.zsh; do
@@ -62,7 +63,6 @@ for f in "$PATH_SCAN_DIR".d/*.zsh; do
 done
 
 export MANPATH=/opt/local/share/man:$MANPATH
-export DISPLAY=:0.0
 export EDITOR=vim
 export PAGER=less
 
@@ -84,7 +84,7 @@ HISTFILE=~/.bash_history
 #
 # Load options
 #
-source ~/.zsh/options.zsh
+source $ZSH_MYCONFDIR/options.zsh
 
 # Autoload zsh modules when they are referenced
 zmodload -a zsh/stat stat
@@ -95,17 +95,17 @@ zmodload -ap zsh/mapfile mapfile
 #
 # Load aliaces
 #
-source ~/.zsh/aliases.zsh
+source $ZSH_MYCONFDIR/aliases.zsh
 
 #
 # Load completion
 #
-source ~/.zsh/completion.zsh
+source $ZSH_MYCONFDIR/completion.zsh
 
 #
 # Load binds
 #
-source ~/.zsh/keybind.zsh
+source $ZSH_MYCONFDIR/keybind.zsh
 
 #
 # Others
@@ -117,15 +117,18 @@ export COLORFGBG="default;default"
 export CFLAGS="-I/opt/local/include ${CFLAGS}"
 export CPPFLAGS="-I/opt/local/include ${CPPFLAGS}"
 
-source ~/.zsh/functions.zsh
+#
+# Functions
+#
+source $ZSH_MYCONFDIR/functions.zsh
 
 #
 # Load prompt
 #
-if [[ -f ~/.zsh/prompt.zsh ]]; then
-	source ~/.zsh/prompt.zsh
+if [[ -f $ZSH_MYCONFDIR/prompt.zsh ]]; then
+    source $ZSH_MYCONFDIR/prompt.zsh
 else
-	prompts=(~/.zsh/prompt.d/*)
-	source $prompts[1]
+    prompts=($ZSH_MYCONFDIR/prompt.d/*)
+    source $prompts[1]
 fi
 # vim: set noet ts=4 tw=80 :
