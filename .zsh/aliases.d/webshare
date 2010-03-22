@@ -1,0 +1,4 @@
+# Share current dir via http.
+# You can provide port as argument, f.e. webshare 8888. By default runs at port 8000.
+
+alias webshare='python -m SimpleHTTPServer'

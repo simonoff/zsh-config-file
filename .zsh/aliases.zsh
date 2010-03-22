@@ -53,9 +53,12 @@ alias clean="rm *~"
 alias emacs="emacs -nw"
 alias grep='grep --color=auto'
 
+#
+# read additional aliases
+#
+if [ -d $ZSH_MYCONFDIR/aliases.d/ ]; then
+    for s in $ZSH_MYCONFDIR/aliases.d/* ; do
+        test -r $s -a ! -k $s && . $s
+    done
+fi
 
-alias mysqlstart='sudo /opt/local/share/mysql5/mysql/mysql.server start'
-alias mysqlstop='sudo /opt/local/share/mysql5/mysql/mysql.server stop'
-
-alias pgsqlstart='sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql83-server.wrapper start'
-alias pgsqlstop='sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql83-server.wrapper stop'
