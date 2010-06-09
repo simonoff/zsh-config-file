@@ -58,7 +58,7 @@ export MANPATH
 PATH_SCAN_DIR=$ZSH_MYCONFDIR/path
 PATH=`read_path_dir $PATH_SCAN_DIR "$PATH" .path`
 export PATH
-for f in "$PATH_SCAN_DIR".d/*.zsh; do
+for f in "$PATH_SCAN_DIR".d/*.zsh(.N); do
 	[[ -e $f && -s $f ]] && . $f
 done
 
