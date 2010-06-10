@@ -46,7 +46,7 @@ setopt list_types
 setopt long_list_jobs
 setopt magic_equal_subst
 setopt mail_warning
-setopt null_glob
+setopt nullglob
 setopt NO_numeric_glob_sort
 setopt NO_path_dirs
 setopt print_eight_bit
