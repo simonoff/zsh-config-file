@@ -12,7 +12,7 @@ ZSH_MYCONFDIR=~/.zsh
 
 function load_files () {
     if [ -d $1 ]; then
-        for f in $1/*(.N); do
+        for f in $1/*; do
             [[ -e $f && -s $f ]] && . $f
         done
     fi
