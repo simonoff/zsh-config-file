@@ -10,6 +10,15 @@ export PATH=""
 export MANPATH=""
 ZSH_MYCONFDIR=~/.zsh
 
+function load_files () {
+    if [ -d $1 ]; then
+        for f in $1/*(.N); do
+            [[ -e $f && -s $f ]] && . $f
+        done
+    fi
+}
+
+
 #
 # Based on /usr/libexec/path_helper
 #
