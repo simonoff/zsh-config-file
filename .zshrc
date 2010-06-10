@@ -67,6 +67,7 @@ export MANPATH
 PATH_SCAN_DIR=$ZSH_MYCONFDIR/path
 PATH=`read_path_dir $PATH_SCAN_DIR "$PATH" .path`
 export PATH
+
 for f in "$PATH_SCAN_DIR".d/*.zsh(.N); do
 	[[ -e $f && -s $f ]] && . $f
 done
@@ -75,7 +76,10 @@ export MANPATH=/opt/local/share/man:$MANPATH
 export EDITOR=vim
 export PAGER=less
 
-
+export PKG_MANAGER=none
+for i in {port,fink,brew};do
+    `which $i > /dev/null` && export PKG_MANAGER=$i
+done
 
 export UNAME_S=$(uname -s 2>&1 || echo "Linux" )
 # Use hard limits, except for a smaller stack and no core dumps
@@ -95,27 +99,6 @@ HISTFILE=~/.bash_history
 #
 source $ZSH_MYCONFDIR/options.zsh
 
-# Autoload zsh modules when they are referenced
-zmodload -a zsh/stat stat
-zmodload -a zsh/zpty zpty
-zmodload -a zsh/zprof zprof
-zmodload -ap zsh/mapfile mapfile
-
-#
-# Load aliaces
-#
-source $ZSH_MYCONFDIR/aliases.zsh
-
-#
-# Load completion
-#
-source $ZSH_MYCONFDIR/completion.zsh
-
-#
-# Load binds
-#
-source $ZSH_MYCONFDIR/keybind.zsh
-
 #
 # Others
 #
@@ -130,6 +113,28 @@ export CPPFLAGS="-I/opt/local/include ${CPPFLAGS}"
 # Functions
 #
 source $ZSH_MYCONFDIR/functions.zsh
+
+# Autoload zsh modules when they are referenced
+zmodload -a zsh/stat stat
+zmodload -a zsh/zpty zpty
+zmodload -a zsh/zprof zprof
+zmodload -ap zsh/mapfile mapfile
+
+#
+# Load aliases
+#
+source $ZSH_MYCONFDIR/aliases.zsh
+
+#
+# Load completion
+#
+source $ZSH_MYCONFDIR/completion.zsh
+
+#
+# Load binds
+#
+source $ZSH_MYCONFDIR/keybind.zsh
+
 
 #
 # Load prompt

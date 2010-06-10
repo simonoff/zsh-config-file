@@ -1,0 +1,2 @@
+alias pgsqlstart='sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql84-server.wrapper start'
+alias pgsqlstop='sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql84-server.wrapper stop'
