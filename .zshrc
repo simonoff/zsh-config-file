@@ -145,4 +145,7 @@ else
     prompts=($ZSH_MYCONFDIR/prompt.d/*)
     source $prompts[1]
 fi
+
+[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+
 # vim: set noet ts=4 tw=80 :
