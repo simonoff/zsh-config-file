@@ -58,17 +58,16 @@ alias grep='grep --color=auto'
 #
 if [ -d $ZSH_MYCONFDIR/aliases.d/ ]; then
     load_files $ZSH_MYCONFDIR/aliases.d
-    
     case "$PKG_MANAGER" in
     port)
-	load_files $ZSH_MYCONFDIR/aliases.d/macports
-	;;
+	    load_files $ZSH_MYCONFDIR/aliases.d/macports
+	    ;;
     fink)
-	load_files $ZSH_MYCONFDIR/aliases.d/fink
-	;;
+	    load_files $ZSH_MYCONFDIR/aliases.d/fink
+	    ;;
     brew)
-	load_files $ZSH_MYCONFDIR/aliases.d/brew
-	;;
+	    load_files $ZSH_MYCONFDIR/aliases.d/brew
+	    ;;
     esac
 fi
 

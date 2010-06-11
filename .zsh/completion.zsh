@@ -80,9 +80,4 @@ zstyle ':completion:*' word true
 #
 # read additional completions
 #
-if [ -d $ZSH_MYCONFDIR/completion.d/ ]; then
-    for s in $ZSH_MYCONFDIR/completion.d/* ; do
-        test -r $s -a ! -k $s && . $s
-    done
-fi
-
+load_files "$ZSH_MYCONFDIR/completion.d"

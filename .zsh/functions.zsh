@@ -146,8 +146,6 @@ src () {
     source ~/.zshrc
 }
 
-
-
 parse_git_dirty() {
   git diff --quiet || echo "*"
 }
@@ -156,3 +154,41 @@ parse_git_branch() {
   [ -d .git ] || return 1
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
 }
+
+#
+# load files in the directory
+# 
+function load_files () {
+	DIR="$1"
+	EXT="$2"
+    if [ -d "$DIR" ]; then
+        for f in "$DIR/*$EXT"(.N); do
+			[[ -r $f && -s $fi ]] && . $f
+        done
+    fi
+}
+
+
+#
+# Based on /usr/libexec/path_helper
+#
+function read_path_dir () {
+	DIR="$1"
+	NEWPATH="$2"
+	EXT="$3"
+	SEP=""
+	IFS=$'\n'
+	if [ -d "$DIR".d ]; then
+		for f in "$DIR" "$DIR".d/*"$EXT" ; do
+		  if [ -f "$f" ]; then
+			for p in $(< "$f") ; do
+				[[ "$NEWPATH" = *(*:)${p}*(:*) ]] && continue
+				[ ! -z "$NEWPATH" ] && SEP=":"
+				NEWPATH="${p}${SEP}${NEWPATH}"
+			done
+		  fi
+		done
+	fi
+	echo $NEWPATH
+}
+
