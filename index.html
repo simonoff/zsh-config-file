@@ -1,109 +1,104 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>zsh-config-file @ GitHub</title>
+<style type="text/css">
+body {margin: 0px; padding: 0px; background: #333333 url('imgs/bg.png') repeat-x left top; color: #bcbcbc;}
+body, textarea, td, th {font-size: 18px; font-family: "Trebuchet MS", Tahoma, Arial;}
+h1 { margin: 0 0 0.5em 0; font-size: 36px; line-height: 42px; font-weight: normal; color: #bcbcbc; }
+h2 { margin: 0 0 0.5em 0; font-size: 24px; line-height: 28px; font-weight: normal; color: #bcbcbc; }
+p {margin: 0 0 1.2em 0;}
+.small, table.small td, td.small {font-size: 14px; line-height: 18px;}
+.large, table.large td, td.large {font-size: 24px; line-height: 28px;}
+.xlarge, table.xlarge td, td.xlarge {font-size: 48px; line-height: 56px;}
+.white {color: #fff;}
+A, A:link, A:visited, A:active {text-decoration: underline; color: #d59ceb;}
+A:hover {text-decoration: underline; color: #edbeff;}
+</style>
 
-	<title>zsh-config-file @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #626faa;
-		  font-family: "Helvetica,Arial,FreeSans";
-  		color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 800px;
-    }
-		h1 { font-size: 3.8em; color: #9d9055; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #9d9055; }
-    h3 { text-align: center; color: #9d9055; }
-    a { color: #9d9055; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"> </script>
-	<script type="text/javascript" src="js/fancybox/jquery.fancybox-1.3.1.pack.js"> </script>
-	<link rel="stylesheet" href="js/fancybox/jquery.fancybox-1.3.1.css" type="text/css" media="screen" />
-	<script type="text/javascript">
-		$(document).ready(function() {
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"> </script>
+<script type="text/javascript" src="js/fancybox/jquery.fancybox-1.3.1.pack.js"> </script>
+<link rel="stylesheet" href="js/fancybox/jquery.fancybox-1.3.1.css" type="text/css" media="screen" />
+<script type="text/javascript">
+	$(document).ready(function() {
 
-			/* This is basic - uses default settings */
+		/* This is basic - uses default settings */
 
-			$("a.screenshots").fancybox({
-				'padding'	: 0,
-				'margin'	: 0,
-				'width'		: 1490,
-				'height'	: 724
-			});
+		$("a.screenshots").fancybox({
+			'padding'		: 0,
+			'overlayColor'	: '#000',
+			'overlayOpacity': 0.5
 		});
-	</script>
+	});
+</script>
+
 </head>
 
-<body>
-  <a href="http://github.com/simonoff/zsh-config-file"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+<body topmargin="0" leftmargin="0">
 
-  <div id="container">
+<a href="http://github.com/simonoff/zsh-config-file"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 
-    <div class="download">
-      <a href="http://github.com/simonoff/zsh-config-file/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/simonoff/zsh-config-file/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+	<td align="center" valign="top" style="padding: 0px 20px 0px 20px;"><table width="1200" height="100%" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td height="160"><table width="100%" height="160" border="0" cellpadding="0" cellspacing="0">
+		<tr>
+			<td><span class="xlarge white">zsh-config-file </span><span class="large white">by <a href="">simonoff</a> & <a href="">daemon</a></span></td>
+			<td width="90"><a href="http://github.com/simonoff/zsh-config-file/zipball/master"><img src="http://github.com/images/modules/download/zip.png" width="90" height="89"/></a></td>
+			<td width="317"><a href="http://github.com/simonoff/zsh-config-file/tarball/master"><img src="http://github.com/images/modules/download/tar.png" width="90" height="89"/></a></td>
+		</tr>
+		</table></td>
+	</tr>
+	<tr>
+		<td valign="top" style="padding-top: 50px;">
+		
+		<h2>Improved zsh config file</h2>
+		<table width="1200" border="0" cellpadding="0" cellspacing="0">
+		<tr>
+			<td width="400" style="padding-bottom: 30px;"><a class="screenshots" rel="screenshots" href="imgs/devil_theme.png" title="simonoff's theme"><img src="imgs/rdevil_theme.png" alt=""/></a></td>
+			<td width="400" style="padding-bottom: 30px;"><a class="screenshots" rel="screenshots" href="imgs/daemon_theme.png" title="daemon's theme"><img src="imgs/rdaemon_theme.png" alt=""/></a></td>
+			<td width="400" style="padding-bottom: 30px;"><a class="screenshots" rel="screenshots" href="imgs/daemon_theme2.png" title="daemon's theme with git branch info"><img src="imgs/rdaemon_theme2.png" alt=""/></a></td>
+		</tr>
+		<tr>
+			<td width="400" style="padding-bottom: 30px;"><a class="screenshots" rel="screenshots" href="imgs/completion1.png" title="git completion example"><img src="imgs/rcompletion1.png" alt=""/></a></td>
+			<td width="400" style="padding-bottom: 30px;"><a class="screenshots" rel="screenshots" href="imgs/completion2.png" title="ssh completion example"><img src="imgs/rcompletion2.png" alt=""/></a></td>
+			<td width="400" style="padding-bottom: 30px;"><a class="screenshots" rel="screenshots" href="imgs/completion3.png" title="MacOS X open -a completion example"><img src="imgs/rcompletion3.png" alt=""/></a></td>
+		</tr>
+		
+		</table>
+		
+		<table width="100%" border="0" cellpadding="0" cellspacing="0">
+		<tr>
+			<td width="460" valign="top">
+				<h1>Authors</h1>
+				<p>Alexander Simonov (<a href="mailto:alex@simonov.me">alex@simonov.me</a>)</p>
+				<p>Dmitry Shaposhnik (<a href="mailto:dmitry@shaposhnik.name">dmitry@shaposhnik.name</a>)</p>
+			</td>
+			<td width="740" valign="top">
+				<div style="margin-left: 13px;">
+					<h1>Download</h1>
+					<p>You can download this project in either <a href="">zip</a> or <a href="">tar</a> formats.</p>
+					<p>You can also clone the project with <a href="">Git</a> by running:</p>
+				</div>
+				<div style="margin-bottom: 30px;">
+					<pre style="background: #000000; padding: 15px;" class="white">$ git clone git://github.com/simonoff/zsh-config-file</pre>
+				</div>
+			</td>
+		</tr>
+		</table>
+		
+		</td>
+	</tr>
+	<tr>
+		<td height="130" class="small" style="border-top: 1px solid #7a7a7a;">
+			get the source code on GitHub: <a href="">simonoff/zsh-config-file</a>
+		</td>
+	</tr>
+	</table></td>
+</tr>
+</table>
 
-    <h1><a href="http://github.com/simonoff/zsh-config-file">zsh-config-file</a>
-      <span class="small">by <a href="http://github.com/simonoff">simonoff</a>&<a href="http://github.com/daemon">daemon</a></span></h1>
-
-    <div class="description">
-      improved zsh config file<br/>
-	  <a class="screenshots" rel="screenshots" href="imgs/devil_theme.png" title="simonoff's theme"><img src="imgs/rdevil_theme.png" alt=""/></a>
-	  <a class="screenshots" rel="screenshots" href="imgs/daemon_theme.png" title="daemon's theme"><img src="imgs/rdaemon_theme.png" alt=""/></a>
-	  <a class="screenshots" rel="screenshots" href="imgs/daemon_theme2.png" title="daemon's theme with git branch info"><img src="imgs/rdaemon_theme2.png" alt=""/></a>
-	  <a class="screenshots" rel="screenshots" href="imgs/completion1.png" title="git completion example"><img src="imgs/rcompletion1.png" alt=""/></a>
-	  <a class="screenshots" rel="screenshots" href="imgs/completion2.png" title="ssh completion example"><img src="imgs/rcompletion2.png" alt=""/></a>
-	  <a class="screenshots" rel="screenshots" href="imgs/completion3.png" title="MacOS X open -a completion example"><img src="imgs/rcompletion3.png" alt=""/></a>
-	  <a class="screenshots" rel="screenshots" href="imgs/completion4.png" title="cd completion example"><img src="imgs/rcompletion4.png" alt=""/></a>
-	  <a class="screenshots" rel="screenshots" href="imgs/inlinescript.png" title="inline shell script example"><img src="imgs/rinlinescript.png" alt=""/></a>
-	  
-    </div>
-
-    <h2>Authors</h2>
-<p>Alexander Simonov (alex@simonov.me)
-<br/>Dmitry Shaposhnik (dmitry@shaposhnik.name)
-<br/></p>
-<h2>Contact</h2>
-<p>Alexander Simonov (alex@simonov.me)
-	<br/>Dmitry Shaposhnik (dmitry@shaposhnik.name)
-	<br/>
-</p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/simonoff/zsh-config-file/zipball/master">zip</a> or
-      <a href="http://github.com/simonoff/zsh-config-file/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/simonoff/zsh-config-file</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/simonoff/zsh-config-file">simonoff/zsh-config-file</a>
-    </div>
-
-  </div>
-
-  
 </body>
+
 </html>
