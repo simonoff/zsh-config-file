@@ -51,13 +51,13 @@ case $TERM in
             Apple_Terminal)
             bindkey "^[[4~" end-of-line
             bindkey "^[[1~" beginning-of-line
-
-            # Bash-like shortcuts
-            bindkey "^E"    end-of-line
-            bindkey "^A"    beginning-of-line
-            bindkey "^K"    kill-line
             ;;
         esac
     fi
     ;;
 esac
+
+# Bash-like shortcuts
+bindkey "^E"    end-of-line
+bindkey "^A"    beginning-of-line
+bindkey "^K"    kill-line
