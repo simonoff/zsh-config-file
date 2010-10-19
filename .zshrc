@@ -69,10 +69,9 @@ export MANPATH
 # Scan path dir for new path
 #
 PATH_SCAN_DIR=$ZSH_MYCONFDIR/path
-PATH=`read_path_dir $PATH_SCAN_DIR "$PATH" .path`
-export PATH
+export PATH=`read_path_dir $PATH_SCAN_DIR "$PATH" .path`
 
-load_files "$PATH_SCAN_DIR.d", ".zsh"
+load_files "$PATH_SCAN_DIR.d" ".zsh"
 
 export MANPATH=/opt/local/share/man:$MANPATH
 export EDITOR=vim
@@ -88,8 +87,8 @@ source $ZSH_MYCONFDIR/aliases.zsh
 #
 # Load completion
 #
+fpath=($ZSH_MYCONFDIR/function.d $fpath)
 source $ZSH_MYCONFDIR/completion.zsh
-
 #
 # Load binds
 #
