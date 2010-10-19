@@ -31,37 +31,28 @@ zstyle -e ':completion:*:approximate:*' max-errors \
 zstyle ':completion:*:expand:*' tag-order all-expansions
 zstyle ':completion:*' completions 1
 # formatting and messages
-zstyle ':completion:*' verbose yes
-zstyle ':completion:*:descriptions' format '%B%d%b'
-zstyle ':completion:*:messages' format '%d'
-zstyle ':completion:*:warnings' format 'No matches for: %d'
-zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
+zstyle ':completion:*:descriptions' format $'%{\e[0;31m%}%d%{\e[0m%}'
+zstyle ':completion:*:messages' format $'%{\e[0;31m%}%d%{\e[0m%}'
+zstyle ':completion:*:warnings' format $'%{\e[0;31m%}No matches for: %d%{\e[0m%}'
+zstyle ':completion:*:corrections' format $'%{\e[0;31m%}%d (errors: %e)%{\e[0m%}'
 # match uppercase from lowercase
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 # offer indexes before parameters in subscripts
 zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 zstyle ':completion:*' hosts $_myhosts
 # Filename suffixes to ignore during completion (except after rm command)
-zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns '*?.o' '*?.c~' \
-    '*?.old' '*?.pro'
+zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns \
+'*?.(o|c~|old|pro|zwc)' '*~'
 # ignore completion functions (until the _ignored completer)
 zstyle ':completion:*:functions' ignored-patterns '_*'
 zstyle -e ':completion:*:approximate:*' max-errors \
     'reply=( $(( ($#PREFIX+$#SUFFIX)/3 )) numeric )'
-zstyle ':completion:*:descriptions' format $'%{\e[0;31m%}%d%{\e[0m%}'
-zstyle ':completion:*:messages' format $'%{\e[0;31m%}%d%{\e[0m%}'
-zstyle ':completion:*:warnings' format $'%{\e[0;31m%}No matches for: %d%{\e[0m%}'
-zstyle ':completion:*:corrections' format $'%{\e[0;31m%}%d (errors: %e)%{\e[0m%}'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' file-sort name
-zstyle ':completion:*' menu select=long
 zstyle ':completion:*:functions' ignored-patterns '_*'
-zstyle ':completion::complete:*' use-cache 1
 zstyle ':completion::complete:*' cache-path $ZSH_MYCONFDIR/.zcompcache
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:complete:-command-::commands' ignored-patterns '*\~'
-zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns \
-'*?.(o|c~|old|pro|zwc)' '*~'
 zstyle ':completion:*:*:mpg321:*' file-patterns \
 '*.(mp3|MP3):mp3\ files *(-/):directories'
 zstyle ':completion:*:*:ogg123:*' file-patterns \
