@@ -162,12 +162,11 @@ function load_files () {
 	DIR="$1"
 	EXT="$2"
     if [ -d "$DIR" ]; then
-        for f in "$DIR/*$EXT"(.N); do
-			[[ -r $f && -s $fi ]] && . $f
+        for f in $DIR/*$EXT(.N); do
+			[[ -r $f && -s $f ]] && . $f
         done
     fi
 }
-
 
 #
 # Based on /usr/libexec/path_helper
@@ -178,8 +177,8 @@ function read_path_dir () {
 	EXT="$3"
 	SEP=""
 	IFS=$'\n'
-	if [ -d "$DIR".d ]; then
-		for f in "$DIR" "$DIR".d/*"$EXT" ; do
+	if [ -d "$DIR.d" ]; then
+		for f in $DIR $DIR.d/*$EXT ; do
 		  if [ -f "$f" ]; then
 			for p in $(< "$f") ; do
 				[[ "$NEWPATH" = *(*:)${p}*(:*) ]] && continue
