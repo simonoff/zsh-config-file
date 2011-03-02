@@ -22,12 +22,15 @@ function precmd {
 
     local promptsize=${#${(%):---(%n@%M:%l)---()}}
     local pwdsize=${#${(%):-%~}}
+    local gitbranch="$(parse_git_branch)"
+    local rvmprompt="$(show_rvm_version)"
+    local gitbranchsize=${#${gitbranch:-''}}
+    local rvmpromptsize=${#${rvmprompt:-''}}
 
-
-    if [[ "$promptsize + $pwdsize" -gt $TERMWIDTH ]]; then
+    if [[ "$promptsize + $pwdsize + $rvmpromptsize + $gitbranchsize" -gt $TERMWIDTH ]]; then
         ((PR_PWDLEN=$TERMWIDTH - $promptsize))
     else
-        PR_FILLBAR="\${(l.(($TERMWIDTH - ($promptsize + $pwdsize)))..${PR_SPACE}.)}"
+        PR_FILLBAR="\${(l.(($TERMWIDTH - ($promptsize + $pwdsize + $rvmpromptsize + $gitbranchsize)))..${PR_SPACE}.)}"
     fi
 }
 
@@ -78,10 +81,6 @@ setprompt () {
     typeset -A altchar
 #    set -A altchar "${(s..)terminfo[acsc]}"
     PR_SET_CHARSET="%{$terminfo[enacs]%}"
-    #PR_SHIFT_IN="%{$terminfo[smacs]%}"
-    PR_SHIFT_IN=""
-    #PR_SHIFT_OUT="%{$terminfo[rmacs]%}"
-    PR_SHIFT_OUT=""
     PR_HBAR=${altchar[q]:--}
     PR_SPACE=" "
     PR_ULCORNER=${altchar[l]:--}
@@ -95,7 +94,7 @@ setprompt () {
 
     case $TERM in
     xterm*|*rxvt*)
-        PR_TITLEBAR=$'%{\e]0;%(!.-=*[ROOT]*=- | .)%n@%M:%~ $(parse_git_branch) | ${COLUMNS}x${LINES} | %y\a%}'
+        PR_TITLEBAR=$'%{\e]0;%(!.-=*[ROOT]*=- | .)%n@%M:%~ $(parse_git_branch) $(show_rvm_version) | ${COLUMNS}x${LINES} | %y\a%}'
         ;;
     screen)
         PR_TITLEBAR=$'%{\e_screen \005 (\005t) | %(!.-=[ROOT]=- | .)%n@%m:%~ | ${COLUMNS}x${LINES} | %y\e\\%}'
@@ -116,26 +115,18 @@ setprompt () {
 
 ###
 # Finally, the prompt.
+#
     PROMPT='$PR_SET_CHARSET$PR_STITLE${(e)PR_TITLEBAR}\
-$PR_CYAN$PR_SHIFT_IN$PR_RED$PR_HBAR$PR_SHIFT_OUT$PR_RED<\
-$PR_BLUE%(!.$PR_RED%SROOT%s.%n)$PR_GREEN@$PR_BLUE%M:$PR_GREEN%$PR_PWDLEN<...<%~%<<\
-$PR_RED\
-$PR_RED>$PR_RED$PR_SHIFT_IN$PR_HBAR$PR_CYAN$PR_SPACE${(e)PR_FILLBAR}$PR_RED$PR_HBAR$PR_SHIFT_OUT<\
-$PR_GREEN%l$PR_RED>$PR_SHIFT_IN$PR_HBAR$PR_CYAN$PR_SHIFT_OUT\
+$PR_RED$PR_HBAR<\
+$PR_BLUE%(!.$PR_RED%SROOT%s.%n)$PR_GREEN@$PR_BLUE%M:$PR_GREEN%$PR_PWDLEN<...<%~$PR_CYAN$(parse_git_branch)$(show_rvm_version)\
+$PR_RED>$PR_HBAR$PR_SPACE${(e)PR_FILLBAR}\
+$PR_RED$PR_HBAR<\
+$PR_GREEN%l$PR_RED>$PR_HBAR\
 
-$PR_SHIFT_IN$PR_RED$PR_HBAR$PR_SHIFT_OUT<\
+$PR_RED$PR_HBAR<\
 %(?..$PR_LIGHT_RED%?$PR_BLUE:)\
-$PR_LIGHT_BLUE%(!.$PR_RED.$PR_WHITE)%#$PR_RED>$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
-$PR_CYAN$PR_SHIFT_IN$PR_SHIFT_OUT\
+$PR_LIGHT_BLUE%(!.$PR_RED.$PR_WHITE)%#$PR_RED>$PR_HBAR\
 $PR_NO_COLOUR '
-
-    RPROMPT=' $PR_RED$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
-<$PR_BLUE%D{%H:%M %a,%d %b}$PR_RED>$PR_SHIFT_IN$PR_HBAR$PR_NO_COLOUR'
-
-    PS2='$PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
-$PR_BLUE$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT(\
-$PR_LIGHT_GREEN%_$PR_BLUE)$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
-$PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT$PR_NO_COLOUR '
 
 }
 

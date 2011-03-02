@@ -152,7 +152,12 @@ parse_git_dirty() {
 
 parse_git_branch() {
   [ -d .git ] || return 1
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ [\1$(parse_git_dirty)]/"
+}
+
+show_rvm_version() {
+    [ -f ~/.rvm/bin/rvm-prompt ] || return ""
+    ~/.rvm/bin/rvm-prompt v i| sed -e "s/\(.*\)/ [\1]/"
 }
 
 #

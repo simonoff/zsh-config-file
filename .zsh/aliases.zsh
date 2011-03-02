@@ -52,6 +52,7 @@ alias hmakej="hilite make -j"
 alias clean="rm *~"
 alias emacs="emacs -nw"
 alias grep='grep --color=auto'
+alias myracksh='USERACK=1 irb -r "racksh/irb"'
 
 #
 # read additional aliases
