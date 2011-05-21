@@ -1,0 +1,2 @@
+source /usr/local/Cellar/coreutils/8.10/aliases
+alias ls='/usr/local/bin/gls -FG --color'
