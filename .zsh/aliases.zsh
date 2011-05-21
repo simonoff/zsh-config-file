@@ -1,5 +1,23 @@
 #
-# Aliases
+# read additional aliases
+#
+if [ -d $ZSH_MYCONFDIR/aliases.d/ ]; then
+    load_files $ZSH_MYCONFDIR/aliases.d
+    case "$PKG_MANAGER" in
+    port)
+	    load_files $ZSH_MYCONFDIR/aliases.d/macports
+	    ;;
+    fink)
+	    load_files $ZSH_MYCONFDIR/aliases.d/fink
+	    ;;
+    brew)
+	    load_files $ZSH_MYCONFDIR/aliases.d/brew
+	    ;;
+    esac
+fi
+
+#
+# Base Aliases
 #
 alias mv='nocorrect mv -v'
 alias cp='nocorrect cp -v'
@@ -7,7 +25,6 @@ alias rm='nocorrect rm -v'
 alias mkdir='nocorrect mkdir'
 alias man='nocorrect man'
 alias find='noglob find'
-alias ls='ls -FG --color'
 alias ll='ls -l'
 alias la='ls -a'
 alias li='ls -ial'
@@ -53,22 +70,3 @@ alias clean="rm *~"
 alias emacs="emacs -nw"
 alias grep='grep --color=auto'
 alias myracksh='USERACK=1 irb -r "racksh/irb"'
-
-#
-# read additional aliases
-#
-if [ -d $ZSH_MYCONFDIR/aliases.d/ ]; then
-    load_files $ZSH_MYCONFDIR/aliases.d
-    case "$PKG_MANAGER" in
-    port)
-	    load_files $ZSH_MYCONFDIR/aliases.d/macports
-	    ;;
-    fink)
-	    load_files $ZSH_MYCONFDIR/aliases.d/fink
-	    ;;
-    brew)
-	    load_files $ZSH_MYCONFDIR/aliases.d/brew
-	    ;;
-    esac
-fi
-
