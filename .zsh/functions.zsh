@@ -167,7 +167,7 @@ function load_files () {
 	DIR="$1"
 	EXT="$2"
     if [ -d "$DIR" ]; then
-        for f in $DIR/*$EXT(.N); do
+        for f in $DIR/**/*$EXT(.N); do
 			[[ -r $f && -s $f ]] && . $f
         done
     fi

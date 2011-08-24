@@ -77,6 +77,10 @@ for i in {port,fink,brew};do
 	`which $i > /dev/null` && export PKG_MANAGER=$i
 done
 #
+# Load modules
+#
+load_files "$ZSH_MYCONFDIR/modules.d" ".zsh"
+#
 # Load prompt
 #
 if [[ -f $ZSH_MYCONFDIR/prompt.zsh ]]; then
